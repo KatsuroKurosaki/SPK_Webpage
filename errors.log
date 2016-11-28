@@ -1,0 +1,122 @@
+[12-Oct-2016 18:24:24 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php:92
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 92
+[12-Oct-2016 18:26:24 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function minecraftVersion() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php:269
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 269
+[12-Oct-2016 18:48:07 Europe/Madrid] PHP Notice:  Undefined variable: ayer in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 107
+[12-Oct-2016 18:48:07 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to a member function format() on null in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php:107
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 107
+[12-Oct-2016 18:54:01 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlineusers.php on line 40
+[12-Oct-2016 18:54:01 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlineusers.php on line 40
+[12-Oct-2016 18:54:01 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlineusers.php on line 50
+[12-Oct-2016 18:54:01 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlineusers.php on line 50
+[12-Oct-2016 19:03:42 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php:98
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 98
+[12-Oct-2016 20:45:03 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function sec2dhms() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/profile.php:52
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/profile.php on line 52
+[16-Oct-2016 13:32:01 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[18-Oct-2016 19:55:06 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[18-Oct-2016 19:55:07 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[19-Oct-2016 15:26:50 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[20-Oct-2016 14:17:15 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[20-Oct-2016 14:50:43 Europe/Madrid] PHP Warning:  require(../class/SPK.php): failed to open stream: No such file or directory in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:50:43 Europe/Madrid] PHP Fatal error:  require(): Failed opening required '../class/SPK.php' (include_path='.:/usr/share/php') in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:50:50 Europe/Madrid] PHP Warning:  require(../../class/SPK.php): failed to open stream: No such file or directory in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:50:50 Europe/Madrid] PHP Fatal error:  require(): Failed opening required '../../class/SPK.php' (include_path='.:/usr/share/php') in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:51:18 Europe/Madrid] PHP Warning:  require(../class/SPK.php): failed to open stream: No such file or directory in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:51:18 Europe/Madrid] PHP Fatal error:  require(): Failed opening required '../class/SPK.php' (include_path='.:/usr/share/php') in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 2
+[20-Oct-2016 14:56:09 Europe/Madrid] PHP Fatal error:  Uncaught Error: Class 'SPK' not found in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php:37
+Stack trace:
+#0 /mnt/md0p1/nginx/snowpointcity-katsunet-com/api.php(19): require()
+#1 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/toponline.php on line 37
+[20-Oct-2016 15:16:43 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 38
+[20-Oct-2016 15:16:55 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 38
+[20-Oct-2016 15:18:35 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 38
+[20-Oct-2016 15:18:45 Europe/Madrid] PHP Notice:  Undefined offset: 0 in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 38
+[20-Oct-2016 15:33:10 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function minecraftVersion() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/minecraftversions.php:20
+Stack trace:
+#0 /mnt/md0p1/nginx/snowpointcity-katsunet-com/api.php(27): require()
+#1 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/minecraftversions.php on line 20
+[20-Oct-2016 19:03:25 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[20-Oct-2016 23:17:18 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function minecraftVersion() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php:318
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/index.php on line 318
+[21-Oct-2016 09:47:40 Europe/Madrid] PHP Warning:  min(): Array must contain at least one element in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 50
+[21-Oct-2016 09:47:40 Europe/Madrid] PHP Warning:  max(): Array must contain at least one element in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/onlinedatagraph.php on line 51
+[21-Oct-2016 14:25:48 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[21-Oct-2016 17:27:04 Europe/Madrid] PHP Notice:  Undefined index: p in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/weblogin.php on line 18
+[22-Oct-2016 09:57:20 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[22-Oct-2016 16:11:12 Europe/Madrid] PHP Fatal error:  Uncaught Error: Class 'SPK\GlobalFunct' not found in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/weblogin.php:22
+Stack trace:
+#0 /mnt/md0p1/nginx/snowpointcity-katsunet-com/api.php(35): require()
+#1 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/weblogin.php on line 22
+[22-Oct-2016 16:11:25 Europe/Madrid] PHP Fatal error:  Uncaught Error: Class 'SPK\GlobalFunc' not found in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/weblogin.php:22
+Stack trace:
+#0 /mnt/md0p1/nginx/snowpointcity-katsunet-com/api.php(35): require()
+#1 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/api/weblogin.php on line 22
+[23-Oct-2016 11:49:23 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[24-Oct-2016 07:21:57 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[24-Oct-2016 13:48:47 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[24-Oct-2016 14:31:53 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function timeHace() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:93
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 93
+[24-Oct-2016 15:39:37 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function sec2dhms() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php:95
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/index.php on line 95
+[24-Oct-2016 15:40:52 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function human_filesize() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/console_viewlogs.php:45
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/console_viewlogs.php on line 45
+[24-Oct-2016 15:41:11 Europe/Madrid] PHP Fatal error:  Uncaught Error: Call to undefined function human_filesize() in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/console_viewlogs.php:45
+Stack trace:
+#0 {main}
+  thrown in /mnt/md0p1/nginx/snowpointcity-katsunet-com/staff/console_viewlogs.php on line 45
