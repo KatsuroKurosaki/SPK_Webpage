@@ -13473,5 +13473,3 @@ abstract class ZabbixApiAbstract
     
 
 }
-
-?>

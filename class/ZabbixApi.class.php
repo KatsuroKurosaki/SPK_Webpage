@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file    ZabbixApi.class.php
  * @brief   Class file for the implementation of the class ZabbixApi.
@@ -39,7 +40,4 @@ require 'ZabbixApiAbstract.class.php';
 
 class ZabbixApi extends ZabbixApiAbstract
 {
-
 }
-
-?>
