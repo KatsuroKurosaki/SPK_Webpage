@@ -18,6 +18,10 @@ class GlobalFunc
 	public static function minecraftVersion($intVer)
 	{
 		switch ($intVer) {
+			case 575:
+				return "1.15.1";
+			case 573:
+				return "1.15";
 			case 498:
 				return "1.14.4";
 			case 490:
