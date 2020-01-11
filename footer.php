@@ -3,8 +3,8 @@
 				<span class="muted credit">Copyright &copy; <?php echo date('Y'); ?> | Sobrevive Para Kraftear, una idea de Katsuro Kurosaki | SPK Web Page versión <?php echo _WWWVERSION; ?></span>
 			</div>
 		</footer>
-		
-		<div id="cookies" class="text-center">
+
+		<!--<div id="cookies" class="text-center">
 			<div>Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación. Si continua navegando, consideramos que acepta su uso. Puede cambiar la configuración u obtener más información <a href="javascript:spawnRemoteModal('cookies.php');">aquí</a>.</div>
 			<div class="text-center"><button type="button" class="btn btn-info btn-sm" onclick="javascript:acceptCookie();">Aceptar cookies</button></div>
 		</div>
@@ -17,4 +17,4 @@
 			
 			ga('create', 'UA-69889423-1', 'auto');
 			ga('send', 'pageview');
-		</script>
+		</script>-->

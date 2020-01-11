@@ -21,7 +21,7 @@ if (isset($_GET['s'])) {
 	<div class="jumbotron spklobby">
 		<div class="container">
 			<h1 class="text-center"><i><span style="color:#A00;">S.</span> <span style="color:#FA0;">P.</span> <span style="color:#0A0;">K.</span></i></h1>
-			<p style="color:white;">Bienvenidos al servidor de los Krafteros Supervivientes! Esperamos que disfrutes de nuestro servidor de Minecraft, y no dudes en visitar todas las secciones de la web.<br />Somos un servidor Premium / No-Premium y necesitas una de estas versiones de Minecraft para jugar: 1.14 hasta 1.8!</p>
+			<p style="color:white;">Bienvenidos al servidor de los Krafteros Supervivientes! Esperamos que disfrutes de nuestro servidor de Minecraft en una comunidad en familia<br />Somos un servidor Premium / No-Premium y necesitas una de estas versiones de Minecraft para jugar: 1.14 hasta 1.8!</p>
 			<h2 class="text-center"><span class="label label-info">IP: spk.katsunet.com</span></h2>
 		</div>
 	</div>
@@ -43,7 +43,7 @@ if (isset($_GET['s'])) {
 					getOnlineUsers();
 				</script>
 			</div>
-			<div class="col-sm-6 col-md-4">
+			<!--<div class="col-sm-6 col-md-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						Últimos rangos adquiridos
@@ -70,7 +70,7 @@ if (isset($_GET['s'])) {
 				<script type="text/javascript">
 					getLastRanks();
 				</script>
-			</div>
+			</div>-->
 			<div class="col-sm-6 col-md-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -101,7 +101,7 @@ if (isset($_GET['s'])) {
 					getTopOnline();
 				</script>
 			</div>
-			<div class="col-sm-6 col-md-4">
+			<!--<div class="col-sm-6 col-md-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						Historico jugadores online
@@ -118,7 +118,7 @@ if (isset($_GET['s'])) {
 				<script type="text/javascript">
 					getGraphHistPlayers()
 				</script>
-			</div>
+			</div>-->
 			<div class="col-sm-6 col-md-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -136,7 +136,7 @@ if (isset($_GET['s'])) {
 					getGraphMinecraftVersions();
 				</script>
 			</div>
-			<div class="col-sm-6 col-md-4">
+			<!--<div class="col-sm-6 col-md-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						Estado del servidor <span id="conngeneral"><i class="fa fa-cog fa-spin fa-lg"></i></span>
@@ -171,9 +171,13 @@ if (isset($_GET['s'])) {
 				<script type="text/javascript">
 					checkConnectivity(1, "#conngeneral");
 				</script>
-			</div>
+			</div>-->
+		</div>
+		<div class="text-center">
+			<a href='https://www.40servidoresmc.es/spk-network' target='_blank'><img style='max-width:160px;' src='https://www.40servidoresmc.es/img/botonvota.png' alt='Servidores de Minecraft 40servidoresM., Vota por SPK NETWORK'></a>
 		</div>
 		<!--<hr />
+		<a href='https://www.40servidoresmc.es/spk-network' target='_blank'><img style='max-width:160px;' src='https://www.40servidoresmc.es/img/botonvota.png' alt='Servidores de Minecraft 40servidoresM., Vota por SPK NETWORK'></a>
 		<h2>Actividad social</h2>
 		<div class="row">
 			<div class="col-sm-6 col-md-4 text-center">
