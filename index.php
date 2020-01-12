@@ -21,7 +21,7 @@ if (isset($_GET['s'])) {
 	<div class="jumbotron spklobby">
 		<div class="container">
 			<h1 class="text-center"><i><span style="color:#A00;">S.</span> <span style="color:#FA0;">P.</span> <span style="color:#0A0;">K.</span></i></h1>
-			<p style="color:white;">Bienvenidos al servidor de los Krafteros Supervivientes! Esperamos que disfrutes de nuestro servidor de Minecraft en una comunidad en familia<br />Somos un servidor Premium / No-Premium y necesitas una de estas versiones de Minecraft para jugar: 1.14 hasta 1.8!</p>
+			<p style="color:white;">Bienvenidos al servidor de los Krafteros Supervivientes! Esperamos que disfrutes de nuestro servidor de Minecraft en una comunidad en familia<br />Somos un servidor Premium / No-Premium y necesitas una de estas versiones de Minecraft para jugar: 1.8 hasta 1.15!</p>
 			<h2 class="text-center"><span class="label label-info">IP: spk.katsunet.com</span></h2>
 		</div>
 	</div>
