@@ -1,0 +1,8 @@
+{
+	"name": "SPK Staff",
+	"description": "Webpage for SPK Fenix staff members.",
+	"icons": [{
+		"src": "favicon.png",
+		"sizes": "192x192"
+	}]
+}
