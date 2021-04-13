@@ -1,20 +1,26 @@
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.php" style="color:white;">.: <span style="color:#A00;">S.</span><span style="color:#FA0;">P.</span><span style="color:#0A0;">K.</span> :.</a>
-		</div>
-		<!--<div class="navbar-collapse collapse navbar-responsive-collapse">
-			<ul class="nav navbar-nav navbar-right small">
-				<li data-toggle="tooltip" data-placement="bottom" title="Síguenos en Twitter.">
-					<a href="https://twitter.com/network_spk" target="_blank" style="color:#1da1f2;"><i class="fa fa-twitter fa-lg"></i> Sígenos en twitter!</a>
-				</li>
-			</ul>
-		</div>-->
-	</div>
+<nav class="navbar navbar-expand-md navbar-dark">
+	<span class="navbar-brand">
+		.: S.P.K. :.
+	</span>
+	<!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>-->
 
+	<!--<div class="collapse navbar-collapse" id="navbar">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item<?= (_FILE == 'index') ? ' active' : '' ?>">
+				<a class="nav-link" href="index.php">Home</a>
+			</li>
+			<li class="nav-item dropdown autoappear">
+				<a class="nav-link dropdown-toggle<?= (_FILE == 'phosphor_jscsslibs') ? ' active' : '' ?>" href="#" id="jscsslibs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Examples
+				</a>
+				<div class="dropdown-menu" aria-labelledby="jscsslibs">
+					<a class="dropdown-item" href="login.php">Login page</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="info.php">PHP info</a>
+				</div>
+			</li>
+		</ul>
+	</div>-->
 </nav>

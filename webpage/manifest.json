@@ -1,0 +1,8 @@
+{
+	"name": "S.P.K.",
+	"description": "S.P.K. es un servidor minecraft no-premium y premium con modalidades conocidas y otras propias",
+	"icons": [{
+		"src": "favicon.png",
+		"sizes": "192x192"
+	}]
+}
