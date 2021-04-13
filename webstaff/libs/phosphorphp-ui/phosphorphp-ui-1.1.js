@@ -6,7 +6,7 @@
 	$.extend({
 		qs: function (key) {
 			key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&");
-			var _match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
+			let _match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
 			return _match && decodeURIComponent(_match[1].replace(/\+/g, " "));
 		}
 	});
@@ -28,12 +28,25 @@
 		},
 
 		round: function (value, precision) {
-			var multiplier = Math.pow(10, precision || 0);
+			let multiplier = Math.pow(10, precision || 0);
 			return Math.round(value * multiplier) / multiplier;
 		},
 
+		formatMoney: function (number, currency = "") {
+			let price = new Intl.NumberFormat("de-DE", {
+				style: "currency",
+				currency: "EUR"
+			}).format(number);
+			//console.log("price:" + price);
+
+			/*if(price.toString().indexOf(",")==-1)
+			price += ",00";
+			*/
+			return price; //  + "" + currency;
+		},
+
 		uts2dt: function (ts) {
-			var _date = new Date(ts * 1000);
+			let _date = new Date(ts * 1000);
 			return _date.getFullYear() + "/" +
 				(((_date.getMonth() + 1) < 10) ? "0" + (_date.getMonth() + 1) : (_date.getMonth() + 1)) + "/" +
 				((_date.getDate() < 10) ? "0" + _date.getDate() : _date.getDate()) + " " +
@@ -43,12 +56,12 @@
 		},
 
 		uts2dtm: function (ts) {
-			var _date = new Date(ts * 1000);
+			let _date = new Date(ts * 1000);
 			return $.uts2dt(ts) + '.' + _date.getMilliseconds().toString().padEnd(3, '0');
 		},
 
 		uts2td: function (ts) {
-			var _date = new Date(ts * 1000);
+			let _date = new Date(ts * 1000);
 			return ((_date.getHours() < 10) ? "0" + _date.getHours() : _date.getHours()) + ":" +
 				((_date.getMinutes() < 10) ? "0" + _date.getMinutes() : _date.getMinutes()) + ":" +
 				((_date.getSeconds() < 10) ? "0" + _date.getSeconds() : _date.getSeconds()) + " " +
@@ -58,7 +71,7 @@
 		},
 
 		uts2tmd: function (ts) {
-			var _date = new Date(ts * 1000);
+			let _date = new Date(ts * 1000);
 			return ((_date.getHours() < 10) ? "0" + _date.getHours() : _date.getHours()) + ":" +
 				((_date.getMinutes() < 10) ? "0" + _date.getMinutes() : _date.getMinutes()) + ":" +
 				((_date.getSeconds() < 10) ? "0" + _date.getSeconds() : _date.getSeconds()) + "." +
@@ -69,13 +82,13 @@
 		},
 
 		ip2num: function (dot) {
-			var d = dot.split('.');
+			let d = dot.split('.');
 			return ((((((+d[0]) * 256) + (+d[1])) * 256) + (+d[2])) * 256) + (+d[3]);
 		},
 
 		num2ip: function (num) {
-			var d = num % 256;
-			for (var i = 3; i > 0; i--) {
+			let d = num % 256;
+			for (let i = 3; i > 0; i--) {
 				num = Math.floor(num / 256);
 				d = num % 256 + '.' + d;
 			}
@@ -83,7 +96,7 @@
 		},
 
 		isValidDate: function (d, m, y) {
-			var _date = new Date(y, m - 1, d);
+			let _date = new Date(y, m - 1, d);
 			return (_date.getFullYear() == y && (_date.getMonth() + 1) == m && _date.getDate() == d);
 		},
 
@@ -92,8 +105,8 @@
 		},
 
 		hexEncode: function (str) {
-			var hex, i;
-			var result = "";
+			let hex, i;
+			let result = "";
 			for (i = 0; i < str.length; i++) {
 				hex = str.charCodeAt(i).toString(16);
 				result += ("000" + hex).slice(-4);
@@ -102,9 +115,9 @@
 		},
 
 		hexDecode: function (hexStr) {
-			var j;
-			var hexes = hexStr.match(/.{1,4}/g) || [];
-			var back = "";
+			let j;
+			let hexes = hexStr.match(/.{1,4}/g) || [];
+			let back = "";
 			for (j = 0; j < hexes.length; j++) {
 				back += String.fromCharCode(parseInt(hexes[j], 16));
 			}
@@ -112,11 +125,45 @@
 		},
 
 		calculateAspectRatio: function (srcWidth, srcHeight, maxWidth, maxHeight) {
-			var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+			let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
 			return {
 				width: srcWidth * ratio,
 				height: srcHeight * ratio
 			};
+		},
+
+		thousandSeparator: function (num, sep = ',') {
+			//return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, sep);
+			/*
+			var n = 34523453.345
+			n.toLocaleString()
+			"34,523,453.345"
+			
+			number.toLocaleString('en-US', {minimumFractionDigits: 2}); "123,456.00"
+			
+			var nf = new Intl.NumberFormat();
+			nf.format(number); // "1,234,567,890"
+
+			// default behaviour on a machine with a local that uses commas for numbers
+			number.toLocaleString(); // "1,234,567,890"
+
+			// With custom settings, forcing a "US" locale to guarantee commas in output
+			var number2 = 1234.56789; // floating point example
+			number2.toLocaleString('en-US', {maximumFractionDigits:2}) // "1,234.57"
+
+			function formatNumber(num) {
+				return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+			}
+
+			print(formatNumber(2665)); // 2,665
+			print(formatNumber(102665)); // 102,665
+			print(formatNumber(111102665)); // 111,102,665
+			123456789.123456789.toString().replace(/(\d)(?=(\d{3})+\.)/g, '$1,') => 123, 456, 789.12345679
+
+			var number = 3500;
+			console.log(new Intl.NumberFormat().format(number));
+			*/
+			return num;
 		}
 	});
 
@@ -160,8 +207,8 @@
 			return true;
 		},
 		getDataSize: function () {
-			var amount, total = 0;
-			for (var i = 0; i < localStorage.length; i++) {
+			let amount, total = 0;
+			for (let i = 0; i < localStorage.length; i++) {
 				amount = localStorage.getItem(localStorage.key(i)).length;
 				total += amount;
 				console.log(localStorage.key(i) + " = " + $.bytes2humanReadable(amount));
@@ -207,8 +254,8 @@
 			return true;
 		},
 		getSessionDataSize: function () {
-			var amount, total = 0;
-			for (var i = 0; i < sessionStorage.length; i++) {
+			let amount, total = 0;
+			for (let i = 0; i < sessionStorage.length; i++) {
 				amount = sessionStorage.getItem(sessionStorage.key(i)).length;
 				total += amount;
 				console.log(sessionStorage.key(i) + " = " + $.bytes2humanReadable(amount));
@@ -224,7 +271,7 @@
 			return (navigator.share !== undefined);
 		},
 		share: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				title: '',
 				text: '',
 				url: window.location.href,
@@ -251,7 +298,7 @@
 			return Math.random().toString(36).substr(2);
 		},
 		randomUUID: function () {
-			var S4 = function () {
+			let S4 = function () {
 				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 			};
 			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
@@ -259,10 +306,10 @@
 		randomHex: function (length) {
 			if (length == undefined)
 				length = 1;
-			var text = [];
-			var validChars = "0123456789ABCDEF";
+			let text = [];
+			let validChars = "0123456789ABCDEF";
 
-			for (var i = 0; i < length; i++)
+			for (let i = 0; i < length; i++)
 				text.push(validChars.charAt(Math.floor(Math.random() * validChars.length)));
 			return text.join("");
 
@@ -271,11 +318,30 @@
 
 	// Object
 	$.extend({
+		findObjectByAttribute: function (items, attribute, value) {
+			for (let i = 0; i < items.length; i++) {
+				if (items[i][attribute] === value) {
+					return items[i];
+				}
+			}
+			return null;
+		},
+
+		findObjectsByAttribute: function (items, attribute, value) {
+			let found = [];
+			for (let i = 0; i < items.length; i++) {
+				if (items[i][attribute] === value) {
+					found.push(items[i]);
+				}
+			}
+			return found;
+		},
+
 		filterObject: function (array, key, value) {
 
 			function __regExpFilter(pattern, text) {
 				//const regex = '/casa/gi';
-				var regex = new RegExp(value, "gi");
+				let regex = new RegExp(value, "gi");
 				const str = text;
 				let m;
 
@@ -295,7 +361,7 @@
 
 			}
 
-			var tmp = new Array();
+			let tmp = new Array();
 			$.grep($.objectToArray(array), function (e) {
 				if (__regExpFilter(value, e[key])) {
 					tmp.push(e);
@@ -308,9 +374,9 @@
 			prefix = (prefix == undefined) ? "data" : prefix;
 
 			function _createObjectFromData(target, prefix) {
-				var data = new Object();
-				var prefixA = prefix + "-int-";
-				var prefixB = prefix + "-str-";
+				let data = new Object();
+				let prefixA = prefix + "-int-";
+				let prefixB = prefix + "-str-";
 
 				target.each(function () {
 					$.each(this.attributes, function () {
@@ -337,7 +403,7 @@
 		},
 
 		objectSize: function (object) {
-			var size = 0,
+			let size = 0,
 				key;
 			for (key in object) {
 				if (object.hasOwnProperty(key)) size++;
@@ -346,9 +412,9 @@
 		},
 
 		objectToArray: function (object) {
-			var _clon = jQuery.extend(true, {}, object);
-			var _array = new Array();
-			for (var item in _clon) {
+			let _clon = jQuery.extend(true, {}, object);
+			let _array = new Array();
+			for (let item in _clon) {
 				_array.push(_clon[item]);
 			}
 			return _array;
@@ -362,7 +428,7 @@
 		},
 
 		objectFindItem: function (array, key, value) {
-			var obj = $.grep($.objectToArray(array), function (e) {
+			let obj = $.grep($.objectToArray(array), function (e) {
 				return e[key] == value;
 			});
 			if (obj != null)
@@ -373,9 +439,9 @@
 		objectSortBy: function (object, args) {
 
 			function _dynamicSortMultiple(attr) {
-				var props = args;
+				let props = args;
 				return function (obj1, obj2) {
-					var i = 0,
+					let i = 0,
 						result = 0,
 						numberOfProperties = props.length;
 					/* try getting a different result from 0 (equal)
@@ -390,18 +456,18 @@
 			}
 
 			function _dynamicSort(property) {
-				var sortOrder = 1;
+				let sortOrder = 1;
 				if (property[0] === "-") {
 					sortOrder = -1;
 					property = property.substr(1, property.length - 1);
 				}
 				return function (a, b) {
-					var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+					let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
 					return result * sortOrder;
 				}
 			}
 
-			var _tmp = $.objectToArray(object);
+			let _tmp = $.objectToArray(object);
 			return _tmp.sort(_dynamicSortMultiple.apply(null, args));
 		}
 
@@ -411,7 +477,7 @@
 	// Printing module
 	$.extend({
 		spawnPrinter: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				windowWidth: 800,
 				windowHeight: 600,
 				headSelector: 'head',
@@ -419,7 +485,7 @@
 				end: function () {}
 			}, options);
 
-			var winprint = window.open('about:blank', 'Print', 'width=' + _settings.windowWidth + ',height=' + _settings.windowHeight + '');
+			let winprint = window.open('about:blank', 'Print', 'width=' + _settings.windowWidth + ',height=' + _settings.windowHeight + '');
 			winprint.document.open();
 			winprint.document.write(
 				'<!doctype html>' +
@@ -444,9 +510,31 @@
 	});
 
 	// Network communications
+	/*
+// Stop all ajax request by http://tjrus.com/blog/stop-all-active-ajax-requests
+$.xhrPool = []; // array of uncompleted requests
+$.xhrPool.abortAll = function () { // our abort function
+	$(this).each(function (idx, jqXHR) {
+		jqXHR.abort();
+	});
+	$.xhrPool.length = 0
+};
+
+$.ajaxSetup({
+	beforeSend: function (jqXHR) { // before jQuery send the request we will push it to our array
+		$.xhrPool.push(jqXHR);
+	},
+	complete: function (jqXHR) { // when some of the requests completed it will splice from the array
+		let index = $.xhrPool.indexOf(jqXHR);
+		if (index > -1) {
+			$.xhrPool.splice(index, 1);
+		}
+	}
+});
+	*/
 	$.extend({
 		api: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				method: 'POST',
 				url: ($.qs("s") != null) ? 'api.php?s=' + $.qs("s") : 'api.php',
 				data: {},
@@ -464,6 +552,7 @@
 				error: function (jqXHR) {},
 				complete: function () {},
 				spawnSpinner: true,
+				handleNetworkError: true,
 				debug: false
 			}, options);
 
@@ -484,6 +573,8 @@
 				success: function (data, textStatus, jqXHR) {
 					if (_settings.debug)
 						console.log(data);
+					if (_settings.spawnSpinner)
+						$.removeSpinner();
 					if (data.status === 'ok')
 						_settings.success(data);
 					else
@@ -492,23 +583,24 @@
 				error: function (jqXHR, textStatus, errorThrown) {
 					if (_settings.debug)
 						console.log(jqXHR);
-					handleNetworkError(jqXHR);
+					if (_settings.spawnSpinner)
+						$.removeSpinner();
+					if (_settings.handleNetworkError)
+						handleNetworkError(jqXHR);
 					_settings.error(jqXHR);
 				},
 				complete: function (jqXHR, textStatus) {
 					if (_settings.debug)
 						console.log(textStatus);
-					if (_settings.spawnSpinner)
-						$.removeSpinner();
 					_settings.complete();
 				}
 			});
 		},
 
 		upload: function (options) {
-			var _startTime = Date.now();
+			let _startTime = Date.now();
 
-			var _settings = $.extend({
+			let _settings = $.extend({
 				method: 'POST',
 				url: ($.qs("s") != null) ? 'api.php?s=' + $.qs("s") : 'api.php',
 				data: new FormData($("form").get(0)),
@@ -528,6 +620,7 @@
 				error: function (jqXHR) {},
 				complete: function () {},
 				spawnSpinner: true,
+				handleNetworkError: true,
 				debug: false
 			}, options);
 
@@ -542,11 +635,11 @@
 				processData: false,
 				enctype: 'multipart/form-data',
 				xhr: function () {
-					var ajXhr = $.ajaxSettings.xhr();
+					let ajXhr = $.ajaxSettings.xhr();
 					if (ajXhr.upload) {
 						ajXhr.upload.addEventListener('progress', function (e) {
 							if (e.lengthComputable) {
-								var data = {
+								let data = {
 									length_computable: e.lengthComputable,
 									bytes_loaded: e.loaded,
 									bytes_total: e.total,
@@ -587,7 +680,8 @@
 				error: function (jqXHR, textStatus, errorThrown) {
 					if (_settings.debug)
 						console.log(jqXHR);
-					handleNetworkError(jqXHR);
+					if (_settings.handleNetworkError)
+						handleNetworkError(jqXHR);
 					_settings.error(jqXHR);
 				},
 				complete: function (jqXHR, textStatus) {
@@ -601,7 +695,7 @@
 		},
 
 		head: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				method: 'HEAD',
 				url: '',
 				timeout: 3000,
@@ -641,7 +735,7 @@
 		},
 
 		websocket: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				url: '',
 				onopen: function () {},
 				onclose: function () {},
@@ -652,7 +746,7 @@
 				reconnectingTxtColor: 'warning',
 				debug: false
 			}, options);
-			var _ws;
+			let _ws;
 
 			if ('ReconnectingWebSocket' in window) {
 				_ws = new ReconnectingWebSocket(_settings.url, null, {
@@ -790,7 +884,7 @@
 	$.extend({
 		spawnSpinner: function (options) {
 			if (!$("#spinner").length) {
-				var _options = $.extend({
+				let _options = $.extend({
 					text: "Loading...",
 					textcolor: "dark", // primary, secondary, success, danger, warning, info, light, dark
 					bgcolor: "rgba(0,0,0,.33)",
@@ -821,147 +915,170 @@
 	// Bootstrap modals
 	$.extend({
 		spawnModal: function (options) {
-			if (!$("#modal").length) {
-				// Modal settings
-				var _settings = $.extend({
-					title: '',
-					body: '',
-					showclose: true,
-					preventclose: true,
-					fadespawn: true,
-					verticalcenter: false,
-					size: 'md', // lg, md, sm, full
-					buttons: [{
-						label: 'Cerrar',
-						dismiss: true
-					}]
-				}, options);
+			// Modal settings
+			let _settings = $.extend({
+				modalId: $("div.modal").length,
+				title: '',
+				body: '',
+				showclose: true,
+				preventclose: true,
+				fadespawn: true,
+				verticalcenter: false,
+				size: 'md', // lg, md, sm, full
+				buttons: [{
+					label: 'Cerrar',
+					dismiss: true
+				}],
+				showBsModal: function () {},
+				shownBsModal: function () {},
+				hideBsModal: function () {},
+				hiddenBsModal: function () {},
+				hidePreventedBsModal: function () {},
+			}, options);
 
-				// Add the modal to the DOM
-				$("body").append(
-					'<div id="modal" class="modal' + ((_settings.fadespawn) ? ' fade' : '') + '" tabindex="-1" role="dialog">' +
-					'<div class="modal-dialog' + ((_settings.verticalcenter) ? ' modal-dialog-centered' : '') + ' modal-' + _settings.size + '" role="document">' +
-					'<div class="modal-content">' +
-					'<div class="modal-header">' +
-					'<h5 class="modal-title">' + _settings.title + '</h5>' +
-					((_settings.showclose) ?
-						'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' :
-						''
-					) +
-					'</div>' +
-					'<div class="modal-body">' + _settings.body + '</div>' +
-					((_settings.buttons.length) ?
-						'<div class="modal-footer"></div>' :
-						''
-					) +
-					'</div>' +
-					'</div>' +
-					'</div>'
-				);
+			// Add the modal to the DOM. z-index allows to open new modals and stack them
+			$("body").append(
+				'<div id="modal' + _settings.modalId + '" class="modal' + ((_settings.fadespawn) ? ' fade' : '') + '" tabindex="-1" role="dialog" style="z-index:' + (1041 + $('.modal').length) + '">' +
+				'<div class="modal-dialog' + ((_settings.verticalcenter) ? ' modal-dialog-centered' : '') + ' modal-' + _settings.size + '" role="document">' +
+				'<div class="modal-content">' +
+				'<div class="modal-header">' +
+				'<h5 class="modal-title">' + _settings.title + '</h5>' +
+				((_settings.showclose) ?
+					'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' :
+					''
+				) +
+				'</div>' +
+				'<div class="modal-body">' + _settings.body + '</div>' +
+				((_settings.buttons.length) ?
+					'<div class="modal-footer"></div>' :
+					''
+				) +
+				'</div>' +
+				'</div>' +
+				'</div>'
+			);
+			// Events
+			$('#modal' + _settings.modalId).on('show.bs.modal', _settings.showBsModal);
+			$('#modal' + _settings.modalId).on('shown.bs.modal', function () {
+				// Fix: For every new modal, place the previous backdrop with the z-index correctly
+				$("div.modal-backdrop").each(function (idx) {
+					$(this).css("z-index", (1040 + idx));
+				});
+				_settings.shownBsModal();
+			});
+			$('#modal' + _settings.modalId).on('hide.bs.modal', _settings.hideBsModal);
+			$('#modal' + _settings.modalId).on('hidden.bs.modal', function () {
 				// Remove modal from DOM on close
-				$("#modal").on("hidden.bs.modal", function () {
-					$('#modal').remove();
-				});
-				// Generate buttons
-				$.each(_settings.buttons, function (idx, val) {
-					// Current button settings
-					var _button = $.extend({
-						label: "",
-						color: "primary", // primary, secondary, success, danger, warning, info, light, dark, link
-						outline: false,
-						dismiss: false,
-						size: "md", // lg, md, sm
-						click: function () {}
-					}, val);
+				$('#modal' + _settings.modalId).remove();
+				_settings.hiddenBsModal();
+			});
+			$('#modal' + _settings.modalId).on('hidePrevented.bs.modal', _settings.hidePreventedBsModal);
+			// Generate buttons
+			$.each(_settings.buttons, function (idx, val) {
+				// Current button settings
+				let _button = $.extend({
+					label: "",
+					color: "primary", // primary, secondary, success, danger, warning, info, light, dark, link
+					outline: false,
+					dismiss: false,
+					size: "md", // lg, md, sm
+					click: function () {}
+				}, val);
 
-					// Append buttons to the footer
-					$("#modal div.modal-footer").append(
-						'<button type="button" class="btn btn-' + ((_button.outline) ? 'outline-' : '') + '' + _button.color + ' btn-' + _button.size + '"' + ((_button.dismiss) ? ' data-dismiss="modal"' : '') + ' data-btnidx="' + idx + '">' +
-						_button.label +
-						'</button>'
-					);
-					$("#modal div.modal-footer button[data-btnidx='" + idx + "']").on("click", _button.click);
-				});
-				// Prevent modal close on keyboard ESC key and mouseclick
-				$('#modal').modal({
-					backdrop: (_settings.preventclose) ? 'static' : true,
-					keyboard: !_settings.preventclose
-				});
-				// Summon the modal
-				$('#modal').modal('show');
-			}
+				// Append buttons to the footer
+				$("#modal" + _settings.modalId + " div.modal-footer").append(
+					'<button type="button" class="btn btn-' + ((_button.outline) ? 'outline-' : '') + '' + _button.color + ' btn-' + _button.size + '"' + ((_button.dismiss) ? ' data-dismiss="modal"' : '') + ' data-btnidx="' + idx + '">' +
+					_button.label +
+					'</button>'
+				);
+				$("#modal" + _settings.modalId + " div.modal-footer button[data-btnidx='" + idx + "']").on("click", _button.click);
+			});
+			// Prevent modal close on keyboard ESC key and mouseclick
+			$('#modal' + _settings.modalId).modal({
+				backdrop: (_settings.preventclose) ? 'static' : true,
+				keyboard: !_settings.preventclose
+			});
+			// Summon the modal
+			$('#modal' + _settings.modalId).modal('show');
 		},
 
 		spawnRemoteModal: function (options) {
-			if (!$("#modal").length) {
-				// Remote modal AJAX settings
-				var _settings = $.extend({
-					method: "GET",
-					url: "",
-					data: {},
-					timeout: 10000,
-					// Up: $.ajax()
-					success: function () {},
-					error: function () {},
-					complete: function () {},
-					// Down: $.spawnModal()
-					preventclose: true,
-					fadespawn: true,
-					verticalcenter: false,
-					size: 'md', // lg, md, sm, full
-					buttons: [],
-					spawnSpinner: true,
-					debug: false
-				}, options);
+			// Remote modal AJAX settings
+			let _settings = $.extend({
+				method: "GET",
+				url: "",
+				data: {},
+				timeout: 10000,
+				spawnSpinner: true,
+				handleNetworkError: true,
+				debug: false,
+				// Up: $.ajax()
+				success: function () {},
+				error: function () {},
+				complete: function () {},
+				// Down: $.spawnModal()
+				modalId: $("div.modal").length,
+				preventclose: true,
+				fadespawn: true,
+				verticalcenter: false,
+				size: 'md', // lg, md, sm, full
+				buttons: [],
+				showBsModal: function () {},
+				shownBsModal: function () {},
+				hideBsModal: function () {},
+				hiddenBsModal: function () {},
+				hidePreventedBsModal: function () {},
+			}, options);
 
-				// AJAX call
-				$.ajax({
-					method: _settings.method,
-					url: _settings.url,
-					data: _settings.data,
-					timeout: _settings.timeout,
-					beforeSend: function (jqXHR, settings) {
-						if (_settings.debug)
-							console.log(settings);
-						if (_settings.spawnSpinner)
-							$.spawnSpinner();
-					},
-					success: function (data) {
-						// Spawn a modal and replace contents.
-						$.spawnModal(_settings);
-						$("#modal div.modal-content").html(data);
-						_settings.success();
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						if (_settings.debug)
-							console.log(jqXHR);
+			// AJAX call
+			$.ajax({
+				method: _settings.method,
+				url: _settings.url,
+				data: _settings.data,
+				timeout: _settings.timeout,
+				beforeSend: function (jqXHR, settings) {
+					if (_settings.debug)
+						console.log(settings);
+					if (_settings.spawnSpinner)
+						$.spawnSpinner();
+				},
+				success: function (data) {
+					// Spawn a modal and replace contents.
+					$.spawnModal(_settings);
+					$("#modal" + _settings.modalId + " div.modal-content").html(data);
+					_settings.success();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if (_settings.debug)
+						console.log(jqXHR);
+					if (_settings.handleNetworkError)
 						handleNetworkError(jqXHR);
-						_settings.error();
-					},
-					complete: function (jqXHR, textStatus) {
-						if (_settings.debug)
-							console.log(textStatus);
-						if (_settings.spawnSpinner)
-							$.removeSpinner();
-						_settings.complete();
-					}
-				});
-			}
+					_settings.error();
+				},
+				complete: function (jqXHR, textStatus) {
+					if (_settings.debug)
+						console.log(textStatus);
+					if (_settings.spawnSpinner)
+						$.removeSpinner();
+					_settings.complete();
+				}
+			});
 		},
 
 		removeModal: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
+				modalId: $("div.modal").length - 1,
 				hidden: function () {},
 				delayhidden: 100,
 			}, options);
 
-			$('#modal').on('hidden.bs.modal', function () {
+			$('#modal' + _settings.modalId).on('hidden.bs.modal', function () {
 				setTimeout(
 					_settings.hidden,
 					_settings.delayhidden
 				);
 			});
-			$('#modal').modal('hide');
+			$('#modal' + _settings.modalId).modal('hide');
 		},
 
 	});
@@ -970,7 +1087,7 @@
 	$.extend({
 		spawnAlert: function (options) {
 			// Alert/Toast settings
-			var _settings = $.extend({
+			let _settings = $.extend({
 				title: "",
 				subtitle: "",
 				body: "",
@@ -1024,7 +1141,7 @@
 		},
 
 		removeAlert: function (options) {
-			var _settings = $.extend({
+			let _settings = $.extend({
 				toastId: 0
 			}, options);
 
@@ -1036,7 +1153,7 @@
 
 	// Creates an arrayAdds the unchecked checkboxes to the serializeArray funcion
 	$.fn.serializeForm = function () {
-		var data = this.serializeArray().concat(
+		let data = this.serializeArray().concat(
 			this.find("input[type='checkbox']:not(:checked)").map(function () {
 				return {
 					"name": this.name,
@@ -1044,8 +1161,8 @@
 				}
 			}).get()
 		);
-		var serialized = new Object();
-		for (var idx in data) {
+		let serialized = new Object();
+		for (let idx in data) {
 			serialized[data[idx].name] = data[idx].value;
 		}
 		return serialized;
@@ -1053,18 +1170,19 @@
 
 	// Runs a number
 	$.fn.runNumber = function (options) {
-		var _settings = $.extend({
+		let _settings = $.extend({
 			duration: 1000,
 			decimalPos: 0,
 			fromVal: 0,
 			toVal: 100,
 			delayStart: 0,
 			prefix: '',
-			suffix: ''
+			suffix: '',
+			thousandSeparator: false,
 		}, options);
-		var container = this;
+		let container = this;
 
-		$(container).text(_settings.prefix + _settings.fromVal.toFixed(_settings.decimalPos) + _settings.suffix);
+		$(container).html(_settings.prefix + _settings.fromVal.toFixed(_settings.decimalPos) + _settings.suffix);
 		$({
 			someValue: _settings.fromVal
 		}).delay(_settings.delayStart).animate({
@@ -1072,32 +1190,46 @@
 		}, {
 			duration: _settings.duration,
 			step: function () {
-				$(container).text(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				if (_settings.thousandSeparator) {
+					$(container).html(_settings.prefix + $.thousandSeparator(this.someValue.toFixed(_settings.decimalPos), _settings.thousandSeparator) + _settings.suffix);
+				} else {
+					$(container).html(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				}
 			},
 			complete: function () {
-				$(container).text(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				if (_settings.thousandSeparator) {
+					$(container).html(_settings.prefix + $.thousandSeparator(this.someValue.toFixed(_settings.decimalPos), _settings.thousandSeparator) + _settings.suffix);
+				} else {
+					$(container).html(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				}
 			}
 		});
 	};
 
 	// Generates a thumbnail
 	$.fn.imageThumbnailer = function (options) {
-		var _settings = $.extend({
+		let _settings = $.extend({
 			width: 800,
 			height: 600,
 			imgFile: null
 		}, options);
-		var container = this;
+		let container = this;
 
-		var image = new Image();
+		let image = new Image();
 		try {
 			image.src = URL.createObjectURL(_settings.imgFile);
 		} catch (err) {
 			alert(err);
 		}
 		image.onload = function () {
-			var newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
-			var canvas = document.createElement("canvas");
+			let newSize = {
+				width: image.width,
+				height: image.height
+			};
+			if (image.width > _settings.width || image.height > _settings.height) {
+				newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			}
+			let canvas = document.createElement("canvas");
 			canvas.width = newSize.width;
 			canvas.height = newSize.height;
 			canvas.getContext("2d").drawImage(image, 0, 0, newSize.width, newSize.height);
@@ -1108,6 +1240,15 @@
 						file: _settings.imgFile,
 						type: "image/jpeg",
 						image: canvas.toDataURL("image/jpeg")
+					}]);
+					break;
+
+				case "image/gif":
+					container.trigger("thumbnailGenerated", [{
+						success: true,
+						file: _settings.imgFile,
+						type: "image/gif",
+						image: canvas.toDataURL("image/png")
 					}]);
 					break;
 
@@ -1148,16 +1289,16 @@
 
 	// Transforms a <img src="*.svg"/> tag into the inline version
 	$.fn.SVGinliner = function (options) {
-		var _settings = $.extend({
+		let _settings = $.extend({
 			fillColor: ''
 		}, options);
 
 		this.each(function () {
-			var _img = $(this);
+			let _img = $(this);
 			$.get(
 				$(this).attr('src'),
 				function (data) {
-					var _svg = $(data).find('svg');
+					let _svg = $(data).find('svg');
 
 					if (_img.attr("id") != undefined)
 						_svg.attr("id", _img.attr("id"));
@@ -1182,11 +1323,11 @@
 
 	// Reads and returns all data-* attributes
 	$.fn.attrToObject = function (options) {
-		var _settings = $.extend({
+		let _settings = $.extend({
 			prefix: 'data-'
 		}, options);
 
-		var data = new Object();
+		let data = new Object();
 		$.each(this.get(0).attributes, function (idx, val) {
 			if (val.name.startsWith(_settings.prefix)) {
 				switch (val.name.substring(val.name.indexOf("-") + 1, val.name.lastIndexOf("-"))) {

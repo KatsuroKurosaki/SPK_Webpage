@@ -1096,7 +1096,13 @@
 			alert(err);
 		}
 		image.onload = function () {
-			var newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			var newSize = {
+				width: image.width,
+				height: image.height
+			};
+			if (image.width > _settings.width || image.height > _settings.height) {
+				newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			}
 			var canvas = document.createElement("canvas");
 			canvas.width = newSize.width;
 			canvas.height = newSize.height;
@@ -1108,6 +1114,15 @@
 						file: _settings.imgFile,
 						type: "image/jpeg",
 						image: canvas.toDataURL("image/jpeg")
+					}]);
+					break;
+
+				case "image/gif":
+					container.trigger("thumbnailGenerated", [{
+						success: true,
+						file: _settings.imgFile,
+						type: "image/gif",
+						image: canvas.toDataURL("image/png")
 					}]);
 					break;
 

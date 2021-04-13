@@ -117,6 +117,11 @@
 				width: srcWidth * ratio,
 				height: srcHeight * ratio
 			};
+		},
+
+		thousandSeparator: function (num, sep = ',') {
+			//return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, sep);
+			return num;
 		}
 	});
 
@@ -271,6 +276,25 @@
 
 	// Object
 	$.extend({
+		findObjectByAttribute: function (items, attribute, value) {
+			for (var i = 0; i < items.length; i++) {
+				if (items[i][attribute] === value) {
+					return items[i];
+				}
+			}
+			return null;
+		},
+
+		findObjectsByAttribute: function (items, attribute, value) {
+			let found = [];
+			for (var i = 0; i < items.length; i++) {
+				if (items[i][attribute] === value) {
+					found.push(items[i]);
+				}
+			}
+			return found;
+		},
+
 		filterObject: function (array, key, value) {
 
 			function __regExpFilter(pattern, text) {
@@ -464,6 +488,7 @@
 				error: function (jqXHR) {},
 				complete: function () {},
 				spawnSpinner: true,
+				handleNetworkError: true,
 				debug: false
 			}, options);
 
@@ -492,7 +517,8 @@
 				error: function (jqXHR, textStatus, errorThrown) {
 					if (_settings.debug)
 						console.log(jqXHR);
-					handleNetworkError(jqXHR);
+					if (_settings.handleNetworkError)
+						handleNetworkError(jqXHR);
 					_settings.error(jqXHR);
 				},
 				complete: function (jqXHR, textStatus) {
@@ -528,6 +554,7 @@
 				error: function (jqXHR) {},
 				complete: function () {},
 				spawnSpinner: true,
+				handleNetworkError: true,
 				debug: false
 			}, options);
 
@@ -587,7 +614,8 @@
 				error: function (jqXHR, textStatus, errorThrown) {
 					if (_settings.debug)
 						console.log(jqXHR);
-					handleNetworkError(jqXHR);
+					if (_settings.handleNetworkError)
+						handleNetworkError(jqXHR);
 					_settings.error(jqXHR);
 				},
 				complete: function (jqXHR, textStatus) {
@@ -821,147 +849,170 @@
 	// Bootstrap modals
 	$.extend({
 		spawnModal: function (options) {
-			if (!$("#modal").length) {
-				// Modal settings
-				var _settings = $.extend({
-					title: '',
-					body: '',
-					showclose: true,
-					preventclose: true,
-					fadespawn: true,
-					verticalcenter: false,
-					size: 'md', // lg, md, sm, full
-					buttons: [{
-						label: 'Cerrar',
-						dismiss: true
-					}]
-				}, options);
+			// Modal settings
+			var _settings = $.extend({
+				modalId: $("div.modal").length,
+				title: '',
+				body: '',
+				showclose: true,
+				preventclose: true,
+				fadespawn: true,
+				verticalcenter: false,
+				size: 'md', // lg, md, sm, full
+				buttons: [{
+					label: 'Cerrar',
+					dismiss: true
+				}],
+				showBsModal: function () {},
+				shownBsModal: function () {},
+				hideBsModal: function () {},
+				hiddenBsModal: function () {},
+				hidePreventedBsModal: function () {},
+			}, options);
 
-				// Add the modal to the DOM
-				$("body").append(
-					'<div id="modal" class="modal' + ((_settings.fadespawn) ? ' fade' : '') + '" tabindex="-1" role="dialog">' +
-					'<div class="modal-dialog' + ((_settings.verticalcenter) ? ' modal-dialog-centered' : '') + ' modal-' + _settings.size + '" role="document">' +
-					'<div class="modal-content">' +
-					'<div class="modal-header">' +
-					'<h5 class="modal-title">' + _settings.title + '</h5>' +
-					((_settings.showclose) ?
-						'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' :
-						''
-					) +
-					'</div>' +
-					'<div class="modal-body">' + _settings.body + '</div>' +
-					((_settings.buttons.length) ?
-						'<div class="modal-footer"></div>' :
-						''
-					) +
-					'</div>' +
-					'</div>' +
-					'</div>'
-				);
+			// Add the modal to the DOM. z-index allows to open new modals and stack them
+			$("body").append(
+				'<div id="modal' + _settings.modalId + '" class="modal' + ((_settings.fadespawn) ? ' fade' : '') + '" tabindex="-1" role="dialog" style="z-index:' + (1041 + $('.modal').length) + '">' +
+				'<div class="modal-dialog' + ((_settings.verticalcenter) ? ' modal-dialog-centered' : '') + ' modal-' + _settings.size + '" role="document">' +
+				'<div class="modal-content">' +
+				'<div class="modal-header">' +
+				'<h5 class="modal-title">' + _settings.title + '</h5>' +
+				((_settings.showclose) ?
+					'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' :
+					''
+				) +
+				'</div>' +
+				'<div class="modal-body">' + _settings.body + '</div>' +
+				((_settings.buttons.length) ?
+					'<div class="modal-footer"></div>' :
+					''
+				) +
+				'</div>' +
+				'</div>' +
+				'</div>'
+			);
+			// Events
+			$('#modal' + _settings.modalId).on('show.bs.modal', _settings.showBsModal);
+			$('#modal' + _settings.modalId).on('shown.bs.modal', function () {
+				// Fix: For every new modal, place the previous backdrop with the z-index correctly
+				$("div.modal-backdrop").each(function (idx) {
+					$(this).css("z-index", (1040 + idx));
+				});
+				_settings.shownBsModal();
+			});
+			$('#modal' + _settings.modalId).on('hide.bs.modal', _settings.hideBsModal);
+			$('#modal' + _settings.modalId).on('hidden.bs.modal', function () {
 				// Remove modal from DOM on close
-				$("#modal").on("hidden.bs.modal", function () {
-					$('#modal').remove();
-				});
-				// Generate buttons
-				$.each(_settings.buttons, function (idx, val) {
-					// Current button settings
-					var _button = $.extend({
-						label: "",
-						color: "primary", // primary, secondary, success, danger, warning, info, light, dark, link
-						outline: false,
-						dismiss: false,
-						size: "md", // lg, md, sm
-						click: function () {}
-					}, val);
+				$('#modal' + _settings.modalId).remove();
+				_settings.hiddenBsModal();
+			});
+			$('#modal' + _settings.modalId).on('hidePrevented.bs.modal', _settings.hidePreventedBsModal);
+			// Generate buttons
+			$.each(_settings.buttons, function (idx, val) {
+				// Current button settings
+				var _button = $.extend({
+					label: "",
+					color: "primary", // primary, secondary, success, danger, warning, info, light, dark, link
+					outline: false,
+					dismiss: false,
+					size: "md", // lg, md, sm
+					click: function () {}
+				}, val);
 
-					// Append buttons to the footer
-					$("#modal div.modal-footer").append(
-						'<button type="button" class="btn btn-' + ((_button.outline) ? 'outline-' : '') + '' + _button.color + ' btn-' + _button.size + '"' + ((_button.dismiss) ? ' data-dismiss="modal"' : '') + ' data-btnidx="' + idx + '">' +
-						_button.label +
-						'</button>'
-					);
-					$("#modal div.modal-footer button[data-btnidx='" + idx + "']").on("click", _button.click);
-				});
-				// Prevent modal close on keyboard ESC key and mouseclick
-				$('#modal').modal({
-					backdrop: (_settings.preventclose) ? 'static' : true,
-					keyboard: !_settings.preventclose
-				});
-				// Summon the modal
-				$('#modal').modal('show');
-			}
+				// Append buttons to the footer
+				$("#modal" + _settings.modalId + " div.modal-footer").append(
+					'<button type="button" class="btn btn-' + ((_button.outline) ? 'outline-' : '') + '' + _button.color + ' btn-' + _button.size + '"' + ((_button.dismiss) ? ' data-dismiss="modal"' : '') + ' data-btnidx="' + idx + '">' +
+					_button.label +
+					'</button>'
+				);
+				$("#modal" + _settings.modalId + " div.modal-footer button[data-btnidx='" + idx + "']").on("click", _button.click);
+			});
+			// Prevent modal close on keyboard ESC key and mouseclick
+			$('#modal' + _settings.modalId).modal({
+				backdrop: (_settings.preventclose) ? 'static' : true,
+				keyboard: !_settings.preventclose
+			});
+			// Summon the modal
+			$('#modal' + _settings.modalId).modal('show');
 		},
 
 		spawnRemoteModal: function (options) {
-			if (!$("#modal").length) {
-				// Remote modal AJAX settings
-				var _settings = $.extend({
-					method: "GET",
-					url: "",
-					data: {},
-					timeout: 10000,
-					// Up: $.ajax()
-					success: function () {},
-					error: function () {},
-					complete: function () {},
-					// Down: $.spawnModal()
-					preventclose: true,
-					fadespawn: true,
-					verticalcenter: false,
-					size: 'md', // lg, md, sm, full
-					buttons: [],
-					spawnSpinner: true,
-					debug: false
-				}, options);
+			// Remote modal AJAX settings
+			var _settings = $.extend({
+				method: "GET",
+				url: "",
+				data: {},
+				timeout: 10000,
+				spawnSpinner: true,
+				handleNetworkError: true,
+				debug: false,
+				// Up: $.ajax()
+				success: function () {},
+				error: function () {},
+				complete: function () {},
+				// Down: $.spawnModal()
+				modalId: $("div.modal").length,
+				preventclose: true,
+				fadespawn: true,
+				verticalcenter: false,
+				size: 'md', // lg, md, sm, full
+				buttons: [],
+				showBsModal: function () {},
+				shownBsModal: function () {},
+				hideBsModal: function () {},
+				hiddenBsModal: function () {},
+				hidePreventedBsModal: function () {},
+			}, options);
 
-				// AJAX call
-				$.ajax({
-					method: _settings.method,
-					url: _settings.url,
-					data: _settings.data,
-					timeout: _settings.timeout,
-					beforeSend: function (jqXHR, settings) {
-						if (_settings.debug)
-							console.log(settings);
-						if (_settings.spawnSpinner)
-							$.spawnSpinner();
-					},
-					success: function (data) {
-						// Spawn a modal and replace contents.
-						$.spawnModal(_settings);
-						$("#modal div.modal-content").html(data);
-						_settings.success();
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						if (_settings.debug)
-							console.log(jqXHR);
+			// AJAX call
+			$.ajax({
+				method: _settings.method,
+				url: _settings.url,
+				data: _settings.data,
+				timeout: _settings.timeout,
+				beforeSend: function (jqXHR, settings) {
+					if (_settings.debug)
+						console.log(settings);
+					if (_settings.spawnSpinner)
+						$.spawnSpinner();
+				},
+				success: function (data) {
+					// Spawn a modal and replace contents.
+					$.spawnModal(_settings);
+					$("#modal" + _settings.modalId + " div.modal-content").html(data);
+					_settings.success();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if (_settings.debug)
+						console.log(jqXHR);
+					if (_settings.handleNetworkError)
 						handleNetworkError(jqXHR);
-						_settings.error();
-					},
-					complete: function (jqXHR, textStatus) {
-						if (_settings.debug)
-							console.log(textStatus);
-						if (_settings.spawnSpinner)
-							$.removeSpinner();
-						_settings.complete();
-					}
-				});
-			}
+					_settings.error();
+				},
+				complete: function (jqXHR, textStatus) {
+					if (_settings.debug)
+						console.log(textStatus);
+					if (_settings.spawnSpinner)
+						$.removeSpinner();
+					_settings.complete();
+				}
+			});
 		},
 
 		removeModal: function (options) {
 			var _settings = $.extend({
+				modalId: $("div.modal").length - 1,
 				hidden: function () {},
 				delayhidden: 100,
 			}, options);
 
-			$('#modal').on('hidden.bs.modal', function () {
+			$('#modal' + _settings.modalId).on('hidden.bs.modal', function () {
 				setTimeout(
 					_settings.hidden,
 					_settings.delayhidden
 				);
 			});
-			$('#modal').modal('hide');
+			$('#modal' + _settings.modalId).modal('hide');
 		},
 
 	});
@@ -1060,11 +1111,12 @@
 			toVal: 100,
 			delayStart: 0,
 			prefix: '',
-			suffix: ''
+			suffix: '',
+			thousandSeparator: false,
 		}, options);
 		var container = this;
 
-		$(container).text(_settings.prefix + _settings.fromVal.toFixed(_settings.decimalPos) + _settings.suffix);
+		$(container).html(_settings.prefix + _settings.fromVal.toFixed(_settings.decimalPos) + _settings.suffix);
 		$({
 			someValue: _settings.fromVal
 		}).delay(_settings.delayStart).animate({
@@ -1072,10 +1124,18 @@
 		}, {
 			duration: _settings.duration,
 			step: function () {
-				$(container).text(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				if (_settings.thousandSeparator) {
+					$(container).html(_settings.prefix + $.thousandSeparator(this.someValue.toFixed(_settings.decimalPos), _settings.thousandSeparator) + _settings.suffix);
+				} else {
+					$(container).html(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				}
 			},
 			complete: function () {
-				$(container).text(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				if (_settings.thousandSeparator) {
+					$(container).html(_settings.prefix + $.thousandSeparator(this.someValue.toFixed(_settings.decimalPos), _settings.thousandSeparator) + _settings.suffix);
+				} else {
+					$(container).html(_settings.prefix + this.someValue.toFixed(_settings.decimalPos) + _settings.suffix);
+				}
 			}
 		});
 	};
@@ -1096,7 +1156,13 @@
 			alert(err);
 		}
 		image.onload = function () {
-			var newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			var newSize = {
+				width: image.width,
+				height: image.height
+			};
+			if (image.width > _settings.width || image.height > _settings.height) {
+				newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			}
 			var canvas = document.createElement("canvas");
 			canvas.width = newSize.width;
 			canvas.height = newSize.height;
@@ -1108,6 +1174,15 @@
 						file: _settings.imgFile,
 						type: "image/jpeg",
 						image: canvas.toDataURL("image/jpeg")
+					}]);
+					break;
+
+				case "image/gif":
+					container.trigger("thumbnailGenerated", [{
+						success: true,
+						file: _settings.imgFile,
+						type: "image/gif",
+						image: canvas.toDataURL("image/png")
 					}]);
 					break;
 

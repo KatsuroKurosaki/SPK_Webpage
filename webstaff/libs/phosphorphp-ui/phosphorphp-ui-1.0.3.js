@@ -834,7 +834,12 @@
 					buttons: [{
 						label: 'Cerrar',
 						dismiss: true
-					}]
+					}],
+					showBsModal: function () {},
+					shownBsModal: function () {},
+					hideBsModal: function () {},
+					hiddenBsModal: function () {},
+					hidePreventedBsModal: function () {},
 				}, options);
 
 				// Add the modal to the DOM
@@ -858,10 +863,16 @@
 					'</div>' +
 					'</div>'
 				);
-				// Remove modal from DOM on close
-				$("#modal").on("hidden.bs.modal", function () {
+				// Events
+				$('#modal').on('show.bs.modal', _settings.showBsModal);
+				$('#modal').on('shown.bs.modal', _settings.shownBsModal);
+				$('#modal').on('hide.bs.modal', _settings.hideBsModal);
+				$('#modal').on('hidden.bs.modal', function () {
+					// Remove modal from DOM on close
 					$('#modal').remove();
+					_settings.hiddenBsModal();
 				});
+				$('#modal').on('hidePrevented.bs.modal', _settings.hidePreventedBsModal);
 				// Generate buttons
 				$.each(_settings.buttons, function (idx, val) {
 					// Current button settings
@@ -1096,7 +1107,13 @@
 			alert(err);
 		}
 		image.onload = function () {
-			var newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			var newSize = {
+				width: image.width,
+				height: image.height
+			};
+			if (image.width > _settings.width || image.height > _settings.height) {
+				newSize = $.calculateAspectRatio(image.width, image.height, _settings.width, _settings.height)
+			}
 			var canvas = document.createElement("canvas");
 			canvas.width = newSize.width;
 			canvas.height = newSize.height;
@@ -1108,6 +1125,15 @@
 						file: _settings.imgFile,
 						type: "image/jpeg",
 						image: canvas.toDataURL("image/jpeg")
+					}]);
+					break;
+
+				case "image/gif":
+					container.trigger("thumbnailGenerated", [{
+						success: true,
+						file: _settings.imgFile,
+						type: "image/gif",
+						image: canvas.toDataURL("image/png")
 					}]);
 					break;
 
