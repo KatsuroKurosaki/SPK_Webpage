@@ -18,7 +18,6 @@
 								<span class="spktxtred">S.</span>
 								<span class="spktxtorange">P.</span>
 								<span class="spktxtgreen">K.</span>
-								STAFF
 							</p>
 						</div>
 						<div class="col-12 mt-3 mb-3">
